@@ -1,0 +1,13 @@
+{
+    "name": "ben/yak",
+    "description": "A Laravel messaging system",
+    "license": "GNU GPLv3",
+    "authors": [
+        {
+            "name": "Ben Wilkins",
+            "email": "bentwilkins@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
