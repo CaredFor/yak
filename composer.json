@@ -1,7 +1,7 @@
 {
     "name": "benwilkins/yak",
     "description": "A Laravel messaging system",
-    "license": "GNU GPLv3",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Ben Wilkins",
