@@ -3,12 +3,15 @@
 namespace Benwilkins\Yak\Models;
 
 
+use Benwilkins\Yak\Contracts\Models\Conversation as ConversationContract;
 use Benwilkins\Yak\Enums\ReadStates;
 use Benwilkins\Yak\Events\ConversationParticipantAdded;
 use Benwilkins\Yak\Events\ConversationParticipantRemoved;
 use Benwilkins\Yak\Exceptions\InvalidUsersException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,10 +20,8 @@ use Illuminate\Support\Facades\DB;
  * Class Conversation
  * @package Benwilkins\Yak\Models
  */
-class Conversation extends YakBaseModel
+class Conversation extends YakBaseModel implements ConversationContract
 {
-//    use UuidKey;
-
     public $incrementing = false;
 
     /**
@@ -45,7 +46,7 @@ class Conversation extends YakBaseModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function participants()
+    public function participants(): BelongsToMany
     {
         return $this->belongsToMany(self::userClass(), 'conversation_participants', 'conversation_id', 'user_id');
     }
@@ -53,15 +54,15 @@ class Conversation extends YakBaseModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Model|null|object|static
+     * @return mixed
      */
-    public function lastMessage()
+    public function lastMessage(): mixed
     {
         return $this->messages()->first();
     }

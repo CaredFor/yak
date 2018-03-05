@@ -3,12 +3,15 @@
 
 namespace Benwilkins\Yak\Models;
 
+use Benwilkins\Yak\Contracts\Models\ConversationState as ConversationStateContract;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 /**
  * Class ConversationState
  * @package Benwilkins\Yak\Models
  */
-class ConversationState extends YakBaseModel
+class ConversationState extends YakBaseModel implements ConversationStateContract
 {
     protected $fillable = [
         'conversation_id',
@@ -20,7 +23,7 @@ class ConversationState extends YakBaseModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(self::userClass());
     }
@@ -28,7 +31,7 @@ class ConversationState extends YakBaseModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function conversation()
+    public function conversation(): BelongsTo
     {
         return $this->belongsTo(Conversation::class);
     }

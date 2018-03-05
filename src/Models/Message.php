@@ -3,7 +3,9 @@
 
 namespace Benwilkins\Yak\Models;
 
+use Benwilkins\Yak\Contracts\Models\Message as MessageContract;
 use Benwilkins\Yak\Events\MessageSent;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 
 
@@ -11,7 +13,7 @@ use Illuminate\Support\Facades\DB;
  * Class Message
  * @package Benwilkins\Yak\Models
  */
-class Message extends YakBaseModel
+class Message extends YakBaseModel implements MessageContract
 {
 //    use UuidKey;
 
@@ -36,7 +38,7 @@ class Message extends YakBaseModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function author()
+    public function author(): BelongsTo
     {
         return $this->belongsTo(self::userClass());
     }
@@ -44,7 +46,7 @@ class Message extends YakBaseModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function conversation()
+    public function conversation(): BelongsTo
     {
         return $this->belongsTo(Conversation::class);
     }

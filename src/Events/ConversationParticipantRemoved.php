@@ -3,7 +3,7 @@
 namespace Benwilkins\Yak\Events;
 
 use Benwilkins\Yak\Enums\BroadcastChannels;
-use Benwilkins\Yak\Models\Conversation;
+use Benwilkins\Yak\Contracts\Models\Conversation;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;

@@ -4,16 +4,13 @@
 namespace Benwilkins\Yak;
 
 
-use App\User;
 use Benwilkins\Yak\Contracts\Yakkable;
 use Benwilkins\Yak\Events\ConversationStarted;
 use Benwilkins\Yak\Exceptions\InvalidUsersException;
-use Benwilkins\Yak\Models\Conversation;
-use Benwilkins\Yak\Models\ConversationState;
+use Benwilkins\Yak\Contracts\Models\Conversation;
+use Benwilkins\Yak\Contracts\Models\ConversationState;
 use Benwilkins\Yak\Models\YakBaseModel;
-use Benwilkins\Yak\Traits\Messageable;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 

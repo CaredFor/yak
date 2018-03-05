@@ -134,3 +134,44 @@ When adding a participant(s) to a conversation via the `addParticipants` method 
 
 #### YakConversationParticipantRemoved
 When removing a participant(s) to a conversation via the `removeParticipants` method on the Conversation model, a `Benwilkins\Yak\Events\ConversationParticipantRemoved` event will be fired.
+
+### Contracts
+It is possible to extend all the models in the package, and even the Yak facade. To do so, simply create and register new service provider that binds the model contracts to the models you want to use.
+
+_Note: I highly recommend just **extending** the current models. There are boot methods and model events contained in there that are important to the application._
+
+#### Example
+
+```php
+<?php 
+
+namespace App\Providers;
+
+// App\MyConversation will extend Benwilkins\Yak\Models\Conversation
+// and implement Benwilkins\Yak\Contracts\Models\Conversation
+use App\MyConversation;  
+use Benwilkins\Yak\Contracts\Models\Conversation as ConversationContract;
+use Illuminate\Support\ServiceProvider;
+
+class YakServiceProvider extends ServiceProvider {
+	
+	public function register()
+	{
+		$this->app->bind(
+			ConversationContract::class,
+			MyConversation::class
+		);
+	}
+}
+```  
+
+And in `config/app.php`: 
+
+```php
+'providers' => [
+	...
+	Benwilkins\Yak\YakServiceProvider::class,
+	App\Providers\YakServiceProvider::class, // Make sure this one comes after the one before it.
+	...
+],
+```

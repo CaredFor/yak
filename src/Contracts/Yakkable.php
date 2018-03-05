@@ -5,8 +5,8 @@ namespace Benwilkins\Yak\Contracts;
 
 
 use Benwilkins\Yak\Exceptions\InvalidUsersException;
-use Benwilkins\Yak\Models\Conversation;
-use Benwilkins\Yak\Models\ConversationState;
+use Benwilkins\Yak\Contracts\Models\Conversation;
+use Benwilkins\Yak\Contracts\Models\ConversationState;
 
 interface Yakkable
 {

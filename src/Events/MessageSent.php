@@ -3,7 +3,7 @@
 namespace Benwilkins\Yak\Events;
 
 use Benwilkins\Yak\Enums\BroadcastChannels;
-use Benwilkins\Yak\Models\Message;
+use Benwilkins\Yak\Contracts\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;

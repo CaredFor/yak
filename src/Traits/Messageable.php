@@ -3,9 +3,9 @@
 
 namespace Benwilkins\Yak\Traits;
 
-use Benwilkins\Yak\Models\Conversation;
-use Benwilkins\Yak\Models\ConversationState;
-use Benwilkins\Yak\Models\Message;
+use Benwilkins\Yak\Contracts\Models\Conversation;
+use Benwilkins\Yak\Contracts\Models\ConversationState;
+use Benwilkins\Yak\Contracts\Models\Message;
 use Illuminate\Support\Collection;
 
 /**

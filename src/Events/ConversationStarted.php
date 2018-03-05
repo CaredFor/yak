@@ -2,7 +2,7 @@
 
 namespace Benwilkins\Yak\Events;
 
-use Benwilkins\Yak\Models\Conversation;
+use Benwilkins\Yak\Contracts\Models\Conversation;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
