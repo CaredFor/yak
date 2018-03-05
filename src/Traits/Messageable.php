@@ -6,6 +6,7 @@ namespace Benwilkins\Yak\Traits;
 use Benwilkins\Yak\Contracts\Models\Conversation;
 use Benwilkins\Yak\Contracts\Models\ConversationState;
 use Benwilkins\Yak\Contracts\Models\Message;
+use Benwilkins\Yak\Facades\Yak;
 use Illuminate\Support\Collection;
 
 /**
@@ -19,7 +20,7 @@ trait Messageable
      */
     public function conversations()
     {
-        return $this->belongsToMany(Conversation::class, 'conversation_participants', 'user_id', 'conversation_id');
+        return $this->belongsToMany(Yak::getConversationClass(), 'conversation_participants', 'user_id', 'conversation_id');
     }
 
     /**
@@ -39,7 +40,7 @@ trait Messageable
      */
     public function messages()
     {
-        return $this->hasMany(Message::class, 'author_id');
+        return $this->hasMany(Yak::getMessageClass(), 'author_id');
     }
 
     /**
@@ -50,8 +51,8 @@ trait Messageable
         $total = 0;
 
         /** @var ConversationState $state */
-        foreach (ConversationState::ofUser($this->id)->where('read', false)->get() as $state) {
-            $total += Message::ofConversation($state->conversation_id)->where('created_at', '>', $state->last_read_at)->count();
+        foreach (Yak::getConversationStateClass()::ofUser($this->id)->where('read', false)->get() as $state) {
+            $total += Yak::getMessageClass()::ofConversation($state->conversation_id)->where('created_at', '>', $state->last_read_at)->count();
         }
 
         return $total;
@@ -62,7 +63,7 @@ trait Messageable
      */
     public function unreadConversations()
     {
-        $states = ConversationState::ofUser($this->id)->where('read', false)->get();
+        $states = Yak::getConversationStateClass()::ofUser($this->id)->where('read', false)->get();
         $conversations = new Collection();
 
         /** @var ConversationState $state */
