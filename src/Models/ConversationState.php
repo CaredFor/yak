@@ -33,7 +33,7 @@ class ConversationState extends YakBaseModel implements ConversationStateContrac
      */
     public function conversation(): BelongsTo
     {
-        return $this->belongsTo(Conversation::class);
+        return $this->belongsTo(Yak::getConversationClass());
     }
 
     /**

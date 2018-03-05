@@ -8,6 +8,7 @@ use Benwilkins\Yak\Enums\ReadStates;
 use Benwilkins\Yak\Events\ConversationParticipantAdded;
 use Benwilkins\Yak\Events\ConversationParticipantRemoved;
 use Benwilkins\Yak\Exceptions\InvalidUsersException;
+use Benwilkins\Yak\Facades\Yak;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -56,13 +57,13 @@ class Conversation extends YakBaseModel implements ConversationContract
      */
     public function messages(): HasMany
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Yak::getMessageClass());
     }
 
     /**
      * @return mixed
      */
-    public function lastMessage(): mixed
+    public function lastMessage()
     {
         return $this->messages()->first();
     }
@@ -73,16 +74,16 @@ class Conversation extends YakBaseModel implements ConversationContract
     public function getStateForCurrentUserAttribute(): string
     {
         // Read if there are no messages in the conversation
-        if (Message::ofConversation($this->id)->count() === 0) {
+        if (Yak::getMessageClass()::ofConversation($this->id)->count() === 0) {
             return ReadStates::READ;
         }
 
         // Unread if the users has never seen the conversation
-        if (!$state = ConversationState::ofUser(Auth::id())->ofConversation($this->id)->latest()->first()) {
+        if (!$state = Yak::getConversationStateClass()::ofUser(Auth::id())->ofConversation($this->id)->latest()->first()) {
             return ReadStates::UNREAD;
         }
 
-        return (Message::ofConversation($this->id)->where('created_at', '>', $state->updated_at)->count() > 0)
+        return (Yak::getMessageClass()::ofConversation($this->id)->where('created_at', '>', $state->updated_at)->count() > 0)
             ? ReadStates::UNREAD
             : ReadStates::READ;
     }

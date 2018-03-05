@@ -42,4 +42,22 @@ interface Yakkable
      * @return Conversation
      */
     public function sendMessageToParticipants(string $body, $userIds, $authorId = null): Conversation;
+
+    /**
+     * Gets the class for the bound model to the Conversation contract.
+     * @return string
+     */
+    public function getConversationClass(): string;
+
+    /**
+     * Gets the class for the bound model to the ConversationState contract.
+     * @return string
+     */
+    public function getConversationStateClass(): string;
+
+    /**
+     * Gets the class for the bound model to the Message contract.
+     * @return string
+     */
+    public function getMessageClass(): string;
 }

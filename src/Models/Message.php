@@ -5,6 +5,7 @@ namespace Benwilkins\Yak\Models;
 
 use Benwilkins\Yak\Contracts\Models\Message as MessageContract;
 use Benwilkins\Yak\Events\MessageSent;
+use Benwilkins\Yak\Facades\Yak;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 
@@ -15,8 +16,6 @@ use Illuminate\Support\Facades\DB;
  */
 class Message extends YakBaseModel implements MessageContract
 {
-//    use UuidKey;
-
     /**
      * {@inheritdoc}
      */
@@ -48,7 +47,7 @@ class Message extends YakBaseModel implements MessageContract
      */
     public function conversation(): BelongsTo
     {
-        return $this->belongsTo(Conversation::class);
+        return $this->belongsTo(Yak::getConversationClass());
     }
 
     /**
@@ -79,7 +78,7 @@ class Message extends YakBaseModel implements MessageContract
     {
         foreach ($this->conversation->participants as $participant) {
             if ($participant->id !== $this->author_id) {
-                ConversationState::updateOrCreate(
+                Yak::getConversationClass()::updateOrCreate(
                     ['conversation_id' => $this->conversation_id, 'user_id' => $this->author_id],
                     ['read' => false]
                 );

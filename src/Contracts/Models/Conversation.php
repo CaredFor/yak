@@ -13,7 +13,7 @@ interface Conversation
 
     public function messages(): HasMany;
 
-    public function lastMessage(): mixed;
+    public function lastMessage();
 
     public function getStateForCurrentUserAttribute(): string;
 

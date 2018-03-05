@@ -4,11 +4,12 @@
 namespace Benwilkins\Yak;
 
 
+use Benwilkins\Yak\Contracts\Models\Conversation;
+use Benwilkins\Yak\Contracts\Models\ConversationState;
+use Benwilkins\Yak\Contracts\Models\Message;
 use Benwilkins\Yak\Contracts\Yakkable;
 use Benwilkins\Yak\Events\ConversationStarted;
 use Benwilkins\Yak\Exceptions\InvalidUsersException;
-use Benwilkins\Yak\Contracts\Models\Conversation;
-use Benwilkins\Yak\Contracts\Models\ConversationState;
 use Benwilkins\Yak\Models\YakBaseModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,20 @@ use Illuminate\Support\Facades\DB;
  */
 class Yak implements Yakkable
 {
+    /** @var string */
+    protected $conversationClass;
+    /** @var string */
+    protected $conversationStateClass;
+    /** @var string */
+    protected $messageClass;
+
+    public function __construct(Conversation $conversation, ConversationState $conversationState, Message $message)
+    {
+        $this->conversationClass = get_class($conversation);
+        $this->conversationStateClass = get_class($conversationState);
+        $this->messageClass = get_class($message);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -41,7 +56,7 @@ class Yak implements Yakkable
             throw InvalidUsersException::minimumNotMet();
         }
 
-        return Conversation::between($userIds)->first();
+        return $this->conversationClass::between($userIds)->first();
     }
 
     /**
@@ -49,7 +64,7 @@ class Yak implements Yakkable
      */
     public function setConversationReadByUser(string $conversationId, $userId): ConversationState
     {
-        $state = ConversationState::updateOrCreate(
+        $state = $this->conversationStateClass::updateOrCreate(
             ['conversation_id' => $conversationId, 'user_id' => $userId],
             ['read' => true, 'last_read_at' => new Carbon()]
         );
@@ -81,6 +96,30 @@ class Yak implements Yakkable
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getConversationClass(): string
+    {
+        return $this->conversationClass;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConversationStateClass(): string
+    {
+        return $this->conversationStateClass;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMessageClass(): string
+    {
+        return $this->messageClass;
+    }
+
+    /**
      * Starts a new conversation between two or more users.
      * @param array $userIds
      * @return Conversation
@@ -93,7 +132,7 @@ class Yak implements Yakkable
         }
 
         /** @var Conversation $conversation */
-        $conversation = Conversation::create();
+        $conversation = $this->conversationClass::create();
         $userClass = YakBaseModel::userClass();
 
         foreach ($userIds as $userId) {
