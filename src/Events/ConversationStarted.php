@@ -16,7 +16,7 @@ class ConversationStarted extends YakEvent
 {
     use InteractsWithSockets;
 
-    protected $conversation;
+    public $conversation;
 
     /**
      * Create a new event instance.

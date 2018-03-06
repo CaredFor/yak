@@ -12,7 +12,7 @@ abstract class YakEvent
         __wakeup as wakeUp;
     }
 
-    protected $connectionName;
+    public $connectionName;
 
     public function __wakeup()
     {

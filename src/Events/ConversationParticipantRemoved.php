@@ -17,8 +17,8 @@ class ConversationParticipantRemoved extends YakEvent
 {
     use InteractsWithSockets;
 
-    protected $conversation;
-    protected $participant;
+    public $conversation;
+    public $participant;
 
     /**
      * Create a new event instance.

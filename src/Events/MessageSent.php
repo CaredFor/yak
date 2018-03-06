@@ -17,7 +17,7 @@ class MessageSent extends YakEvent
 {
     use InteractsWithSockets;
 
-    protected $message;
+    public $message;
 
     /**
      * Create a new event instance.
