@@ -52,7 +52,13 @@ trait Messageable
 
         /** @var ConversationState $state */
         foreach (Yak::getConversationStateClass()::ofUser($this->id)->where('read', false)->get() as $state) {
-            $total += Yak::getMessageClass()::ofConversation($state->conversation_id)->where('created_at', '>', $state->last_read_at)->count();
+            $builder = Yak::getMessageClass()::ofConversation($state->conversation_id);
+
+            if ($state->last_read_at) {
+                $builder->where('created_at', '>', $state->last_read_at);
+            }
+
+            $total += $builder->count();
         }
 
         return $total;
