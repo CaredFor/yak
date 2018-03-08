@@ -28,7 +28,7 @@ class Conversation extends YakBaseModel implements ConversationContract
     /**
      * @var array
      */
-    public $appends = ['state_for_current_user'];
+    public $appends = ['state_for_current_user', 'last_message'];
 
     protected static function boot()
     {
@@ -65,7 +65,15 @@ class Conversation extends YakBaseModel implements ConversationContract
      */
     public function lastMessage()
     {
-        return $this->messages()->first();
+        return Yak::getMessageClass()::ofConversation($this->id)->latest()->first();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastMessageAttribute()
+    {
+        return $this->lastMessage();
     }
 
     /**
