@@ -5,6 +5,7 @@ namespace Benwilkins\Yak\Events;
 use Benwilkins\Yak\Enums\BroadcastChannels;
 use Benwilkins\Yak\Contracts\Models\Conversation;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -13,7 +14,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ConversationParticipantRemoved extends YakEvent
+class ConversationParticipantRemoved extends YakEvent implements ShouldBroadcastNow
 {
     use InteractsWithSockets;
 

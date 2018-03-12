@@ -5,6 +5,7 @@ namespace Benwilkins\Yak\Events;
 use Benwilkins\Yak\Enums\BroadcastChannels;
 use Benwilkins\Yak\Contracts\Models\Message;
 use Illuminate\Broadcasting\Channel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -13,7 +14,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Support\Facades\DB;
 
-class MessageSent extends YakEvent
+class MessageSent extends YakEvent implements ShouldBroadcastNow
 {
     use InteractsWithSockets;
 
