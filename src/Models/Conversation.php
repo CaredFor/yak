@@ -87,13 +87,12 @@ class Conversation extends YakBaseModel implements ConversationContract
         }
 
         // Unread if the users has never seen the conversation
+        /** @var \Benwilkins\Yak\Contracts\Models\ConversationState $state */
         if (!$state = Yak::getConversationStateClass()::ofUser(Auth::id())->ofConversation($this->id)->latest()->first()) {
             return ReadStates::UNREAD;
         }
 
-        return (Yak::getMessageClass()::ofConversation($this->id)->where('created_at', '>', $state->updated_at)->count() > 0)
-            ? ReadStates::UNREAD
-            : ReadStates::READ;
+        return $state->read ? ReadStates::READ : ReadStates::UNREAD;
     }
 
     public function scopeBetween($query, $users)

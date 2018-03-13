@@ -30,9 +30,11 @@ trait Messageable
     public function conversationList($readCount = 8): Collection
     {
         $list = $this->unreadConversations()->sortByDesc('updated_at');
-        $list->concat($this->conversations()->take($readCount)->get());
+        $ids = $list->map(function ($item) {
+            return $item->id;
+        });
 
-        return $list;
+        return $list->concat($this->conversations()->whereNotIn('conversations.id', $ids->values()->toArray())->orderByDesc('updated_at')->take($readCount)->get());
     }
 
     /**
