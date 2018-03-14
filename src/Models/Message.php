@@ -79,7 +79,7 @@ class Message extends YakBaseModel implements MessageContract
         foreach ($this->conversation->participants as $participant) {
             if ($participant->id !== $this->author_id) {
                 Yak::getConversationStateClass()::updateOrCreate(
-                    ['conversation_id' => $this->conversation_id, 'user_id' => $this->author_id],
+                    ['conversation_id' => $this->conversation_id, 'user_id' => $participant->id],
                     ['read' => false]
                 );
             }
