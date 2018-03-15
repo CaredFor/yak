@@ -14,7 +14,7 @@ class AddParticipantsIndexColumnToConversationsTable extends Migration
     public function up()
     {
         Schema::table('conversations', function(Blueprint $table) {
-            $table->json('participants_index')->after('id')->nullable();
+            $table->text('participants_index')->after('id')->nullable();
         });
     }
 
