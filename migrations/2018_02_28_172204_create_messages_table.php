@@ -26,7 +26,9 @@ class CreateMessagesTable extends Migration
             $table->uuid('conversation_id');
             $table->timestamps();
             $table->softDeletes();
+        });
 
+        Schema::table('messages', function (Blueprint $table) {
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade');
         });
@@ -39,6 +41,11 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
+        Schema::table('messages', function (Blueprint $table) {
+            $table->dropForeign('messages_author_id_foreign');
+            $table->dropForeign('messages_conversation_id_foreign');
+        });
+
         Schema::dropIfExists('messages');
     }
 }
