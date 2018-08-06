@@ -21,7 +21,8 @@ class Message extends YakBaseModel implements MessageContract
      */
     protected $fillable = [
         'author_id',
-        'body'
+        'body',
+        'message_type'
     ];
 
     protected static function boot()

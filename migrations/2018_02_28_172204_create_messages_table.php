@@ -24,6 +24,7 @@ class CreateMessagesTable extends Migration
 
             $table->text('body');
             $table->uuid('conversation_id');
+            $table->text('message_type')->default('default');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -75,7 +75,7 @@ class Yak implements Yakkable
     /**
      * {@inheritdoc}
      */
-    public function sendMessageToParticipants(string $body, $userIds, $authorId = null): Conversation
+    public function sendMessageToParticipants(string $body, $userIds, $authorId = null, $message_type = 'default'): Conversation
     {
         if (!is_array($userIds)) {
             $userIds = [$userIds];
@@ -89,7 +89,8 @@ class Yak implements Yakkable
 
         $conversation->messages()->create([
             'author_id' => $author,
-            'body' => $body
+            'body' => $body,
+            'message_type' => $message_type
         ]);
 
         return $conversation->load(['messages']);
