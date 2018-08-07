@@ -14,7 +14,7 @@ class AddMessageTypeColumnToMessagesTable extends Migration
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->text('message_type')->default('default');
+            $table->string('message_type')->after('conversation_id')->default('default');
         });
     }
 
