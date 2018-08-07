@@ -5,6 +5,7 @@ namespace Benwilkins\Yak\Listeners;
 
 use Benwilkins\Yak\Events\ConversationParticipantRemoved;
 use Benwilkins\Yak\Enums\ListenerMessages;
+use Benwilkins\Yak\Enums\MessageTypes;
 
 class ConversationParticipantRemovedListener {
     public $removedMsg;
@@ -30,7 +31,7 @@ class ConversationParticipantRemovedListener {
         $event->conversation->messages()->create([
             'author_id' => $event->participant->id,
             'body' => $removedMsg,
-            'message_type' => 'system'
+            'message_type' => MessageTypes::SYSTEM
         ]);
     }
 }

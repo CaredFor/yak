@@ -10,6 +10,7 @@ use Benwilkins\Yak\Contracts\Models\Message;
 use Benwilkins\Yak\Contracts\Yakkable;
 use Benwilkins\Yak\Events\ConversationStarted;
 use Benwilkins\Yak\Exceptions\InvalidUsersException;
+use Benwilkins\Yak\Enums\MessageTypes;
 use Benwilkins\Yak\Models\YakBaseModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -75,7 +76,7 @@ class Yak implements Yakkable
     /**
      * {@inheritdoc}
      */
-    public function sendMessageToParticipants(string $body, $userIds, $authorId = null, $message_type = 'default'): Conversation
+    public function sendMessageToParticipants(string $body, $userIds, $authorId = null, $message_type = MessageTypes::DEFAULT): Conversation
     {
         if (!is_array($userIds)) {
             $userIds = [$userIds];
