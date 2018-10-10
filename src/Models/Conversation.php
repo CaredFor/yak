@@ -3,6 +3,7 @@
 namespace Benwilkins\Yak\Models;
 
 
+use Benwilkins\Yak\Contracts\Helpers\Tenant;
 use Benwilkins\Yak\Contracts\Models\Conversation as ConversationContract;
 use Benwilkins\Yak\Enums\ReadStates;
 use Benwilkins\Yak\Events\ConversationParticipantAdded;
@@ -118,7 +119,7 @@ class Conversation extends YakBaseModel implements ConversationContract
         }
 
         foreach ($userIds as $userId) {
-            event(new ConversationParticipantAdded($this, YakBaseModel::userClass()::find($userId), DB::getDefaultConnection()));
+            event(new ConversationParticipantAdded($this, YakBaseModel::userClass()::find($userId), resolve(Tenant::class)->current()));
         }
     }
 
@@ -141,7 +142,7 @@ class Conversation extends YakBaseModel implements ConversationContract
         }
 
         foreach ($userIds as $userId) {
-            event(new ConversationParticipantRemoved($this, YakBaseModel::userClass()::find($userId), DB::getDefaultConnection()));
+            event(new ConversationParticipantRemoved($this, YakBaseModel::userClass()::find($userId), resolve(Tenant::class)->current()));
         }
     }
 }

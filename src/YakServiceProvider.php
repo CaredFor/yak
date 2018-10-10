@@ -2,9 +2,11 @@
 
 namespace Benwilkins\Yak;
 
+use Benwilkins\Yak\Contracts\Helpers\Tenant as TenantContract;
 use Benwilkins\Yak\Contracts\Models\Conversation as ConversationContract;
 use Benwilkins\Yak\Contracts\Models\ConversationState as ConversationStateContract;
 use Benwilkins\Yak\Contracts\Models\Message as MessageContract;
+use Benwilkins\Yak\Helpers\Tenant;
 use Benwilkins\Yak\Models\Conversation;
 use Benwilkins\Yak\Models\ConversationState;
 use Benwilkins\Yak\Models\Message;
@@ -45,6 +47,7 @@ class YakServiceProvider extends ServiceProvider
 
     protected function registerContracts()
     {
+        $this->app->bind(TenantContract::class, Tenant::class);
         $this->app->bind(ConversationContract::class, Conversation::class);
         $this->app->bind(ConversationStateContract::class, ConversationState::class);
         $this->app->bind(MessageContract::class, Message::class);

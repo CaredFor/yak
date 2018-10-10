@@ -3,6 +3,7 @@
 
 namespace Benwilkins\Yak\Models;
 
+use Benwilkins\Yak\Contracts\Helpers\Tenant;
 use Benwilkins\Yak\Contracts\Models\Message as MessageContract;
 use Benwilkins\Yak\Events\MessageSent;
 use Benwilkins\Yak\Facades\Yak;
@@ -91,6 +92,6 @@ class Message extends YakBaseModel implements MessageContract
      */
     protected function sendEvents()
     {
-        event(new MessageSent($this, DB::getDefaultConnection()));
+        event(new MessageSent($this, resolve(Tenant::class)->current()));
     }
 }

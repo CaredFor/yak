@@ -2,6 +2,7 @@
 
 namespace Benwilkins\Yak\Events;
 
+use Benwilkins\Yak\Contracts\Helpers\Tenant;
 use Benwilkins\Yak\Enums\BroadcastChannels;
 use Benwilkins\Yak\Contracts\Models\Message;
 use Illuminate\Broadcasting\Channel;
@@ -28,7 +29,7 @@ class MessageSent extends YakEvent implements ShouldBroadcastNow
      */
     public function __construct(Message $message, string $connectionName = null)
     {
-        $this->connectionName = $connectionName ?: DB::getDefaultConnection();
+        $this->connectionName = $connectionName ?: resolve(Tenant::class)->current();
         $this->message = $message;
     }
 

@@ -4,6 +4,7 @@
 namespace Benwilkins\Yak;
 
 
+use Benwilkins\Yak\Contracts\Helpers\Tenant;
 use Benwilkins\Yak\Contracts\Models\Conversation;
 use Benwilkins\Yak\Contracts\Models\ConversationState;
 use Benwilkins\Yak\Contracts\Models\Message;
@@ -142,7 +143,7 @@ class Yak implements Yakkable
 
         $conversation->save();
 
-        event(new ConversationStarted($conversation, DB::getDefaultConnection()));
+        event(new ConversationStarted($conversation, resolve(Tenant::class)->current()));
 
         return $conversation;
     }

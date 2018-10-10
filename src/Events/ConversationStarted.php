@@ -2,6 +2,7 @@
 
 namespace Benwilkins\Yak\Events;
 
+use Benwilkins\Yak\Contracts\Helpers\Tenant;
 use Benwilkins\Yak\Contracts\Models\Conversation;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -25,7 +26,7 @@ class ConversationStarted extends YakEvent
      */
     public function __construct(Conversation $conversation, string $connectionName = null)
     {
-        $this->connectionName = $connectionName ?: DB::getDefaultConnection();
+        $this->connectionName = $connectionName ?: resolve(Tenant::class)->current();
         $this->conversation = $conversation;
     }
 

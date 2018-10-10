@@ -2,6 +2,7 @@
 
 
 namespace Benwilkins\Yak\Events;
+use Benwilkins\Yak\Contracts\Helpers\Tenant;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,7 @@ abstract class YakEvent
 
     public function __wakeup()
     {
-        DB::setDefaultConnection($this->connectionName);
+        resolve(Tenant::class)->connect($this->connectionName);
         $this->wakeUp();
     }
 }
