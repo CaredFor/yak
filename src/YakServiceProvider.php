@@ -10,6 +10,7 @@ use Benwilkins\Yak\Helpers\Tenant;
 use Benwilkins\Yak\Models\Conversation;
 use Benwilkins\Yak\Models\ConversationState;
 use Benwilkins\Yak\Models\Message;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class YakServiceProvider extends ServiceProvider
@@ -38,6 +39,7 @@ class YakServiceProvider extends ServiceProvider
     {
         $this->registerFacades();
         $this->registerContracts();
+        $this->registerEventListeners();
     }
 
     protected function registerFacades()
@@ -51,5 +53,11 @@ class YakServiceProvider extends ServiceProvider
         $this->app->bind(ConversationContract::class, Conversation::class);
         $this->app->bind(ConversationStateContract::class, ConversationState::class);
         $this->app->bind(MessageContract::class, Message::class);
+    }
+
+    protected function registerEventListeners()
+    {
+        Event::Listen('Benwilkins\Yak\Events\ConversationParticipantRemoved', 'Benwilkins\Yak\Listeners\ConversationParticipantRemovedListener' );
+        Event::Listen('Benwilkins\Yak\Events\ConversationParticipantAdded', 'Benwilkins\Yak\Listeners\ConversationParticipantAddedListener' );
     }
 }
