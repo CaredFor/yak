@@ -60,6 +60,8 @@ trait Messageable
                 $builder->where('created_at', '>', $state->last_read_at);
             }
 
+            $builder->where('author_id', '!=', $this->id);
+
             $total += $builder->count();
         }
 
