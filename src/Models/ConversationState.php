@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ConversationState extends YakBaseModel implements ConversationStateContract
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'conversation_id',
         'user_id',
