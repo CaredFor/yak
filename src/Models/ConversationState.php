@@ -6,7 +6,7 @@ namespace Benwilkins\Yak\Models;
 use Benwilkins\Yak\Contracts\Models\ConversationState as ConversationStateContract;
 use Benwilkins\Yak\Facades\Yak;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class ConversationState
